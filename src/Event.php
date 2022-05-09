@@ -7,7 +7,7 @@
  * @author     Muhammet ŞAFAK <info@muhammetsafak.com.tr>
  * @copyright  Copyright © 2022 InitPHP
  * @license    http://initphp.github.io/license.txt  MIT
- * @version    1.0
+ * @version    1.0.1
  * @link       https://www.muhammetsafak.com.tr
  */
 
@@ -92,7 +92,12 @@ final class Event
             if($this->debugMode){
                 $start = microtime(true);
             }
-            $res = ($this->simulate === FALSE) ? call_user_func_array($events, $arguments) : true;
+            $res = true;
+            if($this->simulate === FALSE){
+                foreach ($events as $event) {
+                    $res = call_user_func_array($event, $arguments);
+                }
+            }
             if($this->debugMode){
                 $this->debug[] = [
                     'start'     => $start,
