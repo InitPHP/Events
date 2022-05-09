@@ -92,7 +92,7 @@ final class Event
             if($this->debugMode){
                 $start = microtime(true);
             }
-            $res = ($this->simulate === FALSE) ? call_user_func_array($events, $arguments) : true;
+            $res = ($this->simulate === FALSE) ? call_user_func_array($event, $arguments) : true;
             if($this->debugMode){
                 $this->debug[] = [
                     'start'     => $start,
