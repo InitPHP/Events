@@ -7,18 +7,16 @@
  * @author     Muhammet ŞAFAK <info@muhammetsafak.com.tr>
  * @copyright  Copyright © 2022 InitPHP
  * @license    http://initphp.github.io/license.txt  MIT
- * @version    1.0
+ * @version    1.0.2
  * @link       https://www.muhammetsafak.com.tr
  */
-
-declare(strict_types=1);
 
 namespace InitPHP\Events;
 
 /**
+ * @mixin Event
  * @method static bool trigger(string $name, ...$arguments)
  * @method static void on(string $name, callable $callback, int $priority = Event::PRIORITY_LOW)
- *
  * @method static bool getSimulate()
  * @method static Event setSimulate(bool $simulate = false)
  * @method static bool getDebugMode()
@@ -28,16 +26,12 @@ namespace InitPHP\Events;
 class Events
 {
 
-    public const PRIORITY_LOW = Event::PRIORITY_LOW;
-    public const PRIORITY_NORMAL = Event::PRIORITY_NORMAL;
-    public const PRIORITY_HIGH = Event::PRIORITY_HIGH;
+    const PRIORITY_LOW = Event::PRIORITY_LOW;
+    const PRIORITY_NORMAL = Event::PRIORITY_NORMAL;
+    const PRIORITY_HIGH = Event::PRIORITY_HIGH;
 
-    protected static Event $Instance;
-
-    public function __construct()
-    {
-        self::getInstance();
-    }
+    /** @var Event */
+    protected static $Instance;
 
     public function __call($name, $arguments)
     {
@@ -49,7 +43,10 @@ class Events
         return self::getInstance()->{$name}(...$arguments);
     }
 
-    protected static function getInstance(): Event
+    /**
+     * @return Event
+     */
+    protected static function getInstance()
     {
         if(!isset(self::$Instance)){
             self::$Instance = new Event();

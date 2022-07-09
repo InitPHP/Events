@@ -6,7 +6,8 @@ It allows you to run functions from outside in different places within your soft
 
 ## Requirements
 
-- PHP 7.4 or higher
+- PHP 5.6 or higher
+- [InitPHP EventEmitter Library](https://github.com/InitPHP/EventEmitter)
 
 ## Installation
 
@@ -18,12 +19,12 @@ composer require initphp/events
 
 Call the `trigger()` method where the events will be added. Send event with `on()` method.
 
-```php 
+```php
 require_once "vendor/autoload.php";
 use \InitPHP\Events\Events;
 
 Events::on('helloTrigger', function(){
-    echo 'Hello World';
+    echo 'Hello World' . PHP_EOL;
 }, 100);
 
 Events::on('helloTrigger', function(){
@@ -31,6 +32,37 @@ Events::on('helloTrigger', function(){
 }, 99);
 
 Events::trigger('helloTrigger');
+```
+
+**Output :**
+
+```
+Hi World
+Hello World
+```
+
+### Use of Arguments
+
+```php
+require_once "vendor/autoload.php";
+use \InitPHP\Events\Events;
+
+Events::on('helloTrigger', function($name, $myName){
+    echo 'Hello ' . $name . '. I am ' . $myName . '.' . PHP_EOL;
+}, 100);
+
+Events::on('helloTrigger', function($name, $myName){
+    echo 'Hi ' . $name . '. I am ' . $myName . '.' . PHP_EOL;
+}, 99);
+
+Events::trigger('helloTrigger', 'World', 'John');
+```
+
+**Output :**
+
+```
+Hi World. I am John.
+Hello World. I am John.
 ```
 
 ## Credits

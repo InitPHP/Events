@@ -18,6 +18,7 @@
     ],
     "minimum-stability": "stable",
     "require": {
-        "php": ">=7.4"
+        "php": ">=5.6",
+        "initphp/event-emitter": "^1.0"
     }
 }
