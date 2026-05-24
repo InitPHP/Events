@@ -18,8 +18,6 @@ use function call_user_func_array;
 use function is_bool;
 use function is_string;
 
-use InitPHP\EventEmitter\EventEmitter;
-
 final class Event
 {
     const PRIORITY_LOW = 200;

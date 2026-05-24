@@ -1,12 +1,15 @@
 {
     "name": "initphp/events",
-    "description": "Events (Hook) Library",
+    "description": "Events (Hook) Library — now bundles the EventEmitter primitive previously distributed as initphp/event-emitter.",
     "type": "library",
     "license": "MIT",
     "autoload": {
         "psr-4": {
             "InitPHP\\Events\\": "src/"
-        }
+        },
+        "files": [
+            "src/aliases.php"
+        ]
     },
     "authors": [
         {
@@ -18,7 +21,9 @@
     ],
     "minimum-stability": "stable",
     "require": {
-        "php": ">=5.6",
-        "initphp/event-emitter": "^1.0"
+        "php": ">=5.6"
+    },
+    "replace": {
+        "initphp/event-emitter": "*"
     }
 }
