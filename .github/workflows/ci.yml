@@ -138,32 +138,9 @@ jobs:
         run: find src -type f -name '*.php' -print0 | xargs -0 -n1 php -l
 
       - name: Autoload smoke test
-        run: |
-          php -r '
-            spl_autoload_register(function ($class) {
-                $prefix = "InitPHP\\\\Events\\\\";
-                if (strpos($class, $prefix) !== 0) {
-                    return;
-                }
-                $relative = substr($class, strlen($prefix));
-                $file = __DIR__ . "/src/" . str_replace("\\\\", "/", $relative) . ".php";
-                if (is_file($file)) {
-                    require $file;
-                }
-            });
-            require __DIR__ . "/src/aliases.php";
-            $emitter = new InitPHP\Events\EventEmitter();
-            $hit = false;
-            $emitter->on("ping", function () use (&$hit) { $hit = true; });
-            $emitter->emit("ping");
-            if (!$hit) {
-                fwrite(STDERR, "smoke test failed: listener not invoked\n");
-                exit(1);
-            }
-            $legacy = "InitPHP\\\\EventEmitter\\\\EventEmitter";
-            if (!class_exists($legacy)) {
-                fwrite(STDERR, "smoke test failed: BC alias missing\n");
-                exit(1);
-            }
-            echo "smoke ok\n";
-          '
+        # Standalone script (not `php -r`) — on PHP 5.6 / 7.0 / 7.1 / 7.2
+        # `__DIR__` is not defined inside `php -r '...'`, which made the
+        # autoloader resolve `/src/...` and load nothing. As a file
+        # `__DIR__` reliably points at tests/compat/, so the relative
+        # path to src/ works on every PHP version we support.
+        run: php tests/compat/autoload-smoke.php
