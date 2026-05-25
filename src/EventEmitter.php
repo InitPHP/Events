@@ -187,6 +187,24 @@ class EventEmitter implements EventEmitterInterface
         }
     }
 
+    /**
+     * @inheritDoc
+     */
+    public function clearOnceListeners($event = null)
+    {
+        if ($event === null) {
+            $this->onceListeners = [];
+            return;
+        }
+        if (!is_string($event)) {
+            throw new InvalidArgumentException('$event must be a string or null.');
+        }
+        $key = strtolower($event);
+        if (isset($this->onceListeners[$key])) {
+            unset($this->onceListeners[$key]);
+        }
+    }
+
     private function addListener($property, $event, $listener, $priority = 100)
     {
         if(!is_string($event)){
