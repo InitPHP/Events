@@ -1,4 +1,5 @@
 <?php
+
 /**
  * EventEmitterInterface.php
  *
@@ -14,7 +15,6 @@ namespace InitPHP\Events;
 
 interface EventEmitterInterface
 {
-
     /**
      * @param string $event
      * @param callable $listener
@@ -76,5 +76,4 @@ interface EventEmitterInterface
      * @throws \InvalidArgumentException <p>If $event is not string or null.</p>
      */
     public function clearOnceListeners($event = null);
-
 }

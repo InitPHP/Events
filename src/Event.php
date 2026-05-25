@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Event.php
  *
@@ -62,7 +63,7 @@ final class Event
     public function __debugInfo()
     {
         return [
-            'simulate'  => $this->simulate,
+            'simulate' => $this->simulate,
             'debugMode' => $this->debugMode,
             'debugData' => $this->debug,
         ];
@@ -146,7 +147,7 @@ final class Event
      *    trigger() always returns true.
      *
      * @param string $name
-     * @param mixed  ...$arguments
+     * @param mixed ...$arguments
      * @return bool false if a listener short-circuited the chain, true otherwise.
      * @throws InvalidArgumentException
      */
@@ -168,7 +169,7 @@ final class Event
                 if ($this->debugMode) {
                     $this->debug[] = [
                         'start' => $start,
-                        'end'   => microtime(true),
+                        'end' => microtime(true),
                         'event' => $name,
                     ];
                 }
@@ -189,11 +190,11 @@ final class Event
     /**
      * Registers a listener for the given event.
      *
-     * @param string   $name
+     * @param string $name
      * @param callable $callback
-     * @param int      $priority Lower numeric value runs first.
-     *                           Use the PRIORITY_HIGH / PRIORITY_NORMAL /
-     *                           PRIORITY_LOW constants for readability.
+     * @param int $priority Lower numeric value runs first.
+     *                      Use the PRIORITY_HIGH / PRIORITY_NORMAL /
+     *                      PRIORITY_LOW constants for readability.
      * @return $this
      * @throws InvalidArgumentException
      */
@@ -207,9 +208,9 @@ final class Event
      * Registers a one-shot listener that is automatically removed after
      * the next trigger() of the event.
      *
-     * @param string   $name
+     * @param string $name
      * @param callable $callback
-     * @param int      $priority
+     * @param int $priority
      * @return $this
      * @throws InvalidArgumentException
      */
@@ -223,7 +224,7 @@ final class Event
      * Removes a previously registered listener (regular or one-shot) for
      * the given event.
      *
-     * @param string   $name
+     * @param string $name
      * @param callable $callback
      * @return $this
      * @throws InvalidArgumentException

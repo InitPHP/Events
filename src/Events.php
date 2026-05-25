@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Events.php
  *
@@ -23,14 +24,14 @@ namespace InitPHP\Events;
  *
  * @mixin Event
  *
- * @method static bool  trigger(string $name, ...$arguments)
+ * @method static bool trigger(string $name, ...$arguments)
  * @method static Event on(string $name, callable $callback, int $priority = Event::PRIORITY_NORMAL)
  * @method static Event once(string $name, callable $callback, int $priority = Event::PRIORITY_NORMAL)
  * @method static Event off(string $name, callable $callback)
  * @method static Event removeAllListeners(string|null $name = null)
- * @method static bool  getSimulate()
+ * @method static bool getSimulate()
  * @method static Event setSimulate(bool $simulate = false)
- * @method static bool  getDebugMode()
+ * @method static bool getDebugMode()
  * @method static Event setDebugMode(bool $debugMode = false)
  * @method static array getDebug()
  * @method static Event clearDebug()

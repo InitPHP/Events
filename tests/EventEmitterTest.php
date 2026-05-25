@@ -1,4 +1,5 @@
 <?php
+
 /**
  * EventEmitterTest.php
  *
@@ -165,7 +166,7 @@ final class EventEmitterTest extends TestCase
 
     public function test_remove_listener_drops_only_the_targeted_callback(): void
     {
-        $kept    = function (): void {};
+        $kept = function (): void {};
         $removed = function (): void {};
 
         $this->emitter->on('e', $kept, 10);
