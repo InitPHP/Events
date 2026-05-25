@@ -1,4 +1,5 @@
 <?php
+
 /**
  * EventEmitterInterface.php
  *
@@ -14,7 +15,6 @@ namespace InitPHP\Events;
 
 interface EventEmitterInterface
 {
-
     /**
      * @param string $event
      * @param callable $listener
@@ -49,17 +49,31 @@ interface EventEmitterInterface
 
     /**
      * @param null|string $event
-     * @return array
+     * @return list<callable>
      * @throws \InvalidArgumentException <p>If $event is not string or null.</p>
      */
     public function listeners($event = null);
 
     /**
      * @param string $event
-     * @param array $arguments
+     * @param array<int|string, mixed> $arguments
      * @return void
      * @throws \InvalidArgumentException
      */
     public function emit($event, $arguments = []);
 
+    /**
+     * Drops the registered one-shot listeners for the given event without
+     * invoking them. Pass null to drop every event's one-shot listeners.
+     *
+     * Use cases:
+     *  - higher-level dispatchers that run listeners themselves (e.g. with
+     *    "return false stops the chain" semantics) but still need to honour
+     *    the once() contract.
+     *
+     * @param null|string $event
+     * @return void
+     * @throws \InvalidArgumentException <p>If $event is not string or null.</p>
+     */
+    public function clearOnceListeners($event = null);
 }

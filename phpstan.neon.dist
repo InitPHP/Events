@@ -1,0 +1,23 @@
+parameters:
+    level: 8
+    paths:
+        - src
+        - tests
+    excludePaths:
+        # Bootstrap shim — verified by BackwardsCompatibilityAliasTest
+        # at runtime. PHPStan would otherwise need to inspect the
+        # alias targets and complain about them not existing in the
+        # legacy namespace, which is the whole point of the shim.
+        - src/aliases.php
+    treatPhpDocTypesAsCertain: false
+    reportUnmatchedIgnoredErrors: true
+    ignoreErrors:
+        # We intentionally pass values of the wrong type into the public
+        # API so we can assert that the runtime guards fire. PHPStan is
+        # right that the call would never compile in well-typed code,
+        # but that is the whole point of the test. Restricted to *Test.php
+        # under tests/ so the pattern cannot mask genuine bugs elsewhere.
+        -
+            message: '#^Parameter \#\d+ \$\w+ of method InitPHP\\Events\\.+ expects .+, .+ given\.$#'
+            paths:
+                - tests/*Test.php
