@@ -245,7 +245,7 @@ final class EventEmitterTest extends TestCase
     public function test_remove_listener_is_a_silent_noop_when_the_listener_is_not_registered(): void
     {
         $registered = function (): void {};
-        $stranger   = function (): void {};
+        $stranger = function (): void {};
 
         // Hit both branches: removeListener walks BOTH the regular and
         // once registries and, in each one, skips priority buckets

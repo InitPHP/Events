@@ -46,7 +46,7 @@ final class Event
     /** @var EventEmitter */
     protected $emitter;
 
-    /** @var array */
+    /** @var list<array{start: float|int, end: float, event: string}> */
     protected $debug = [];
 
     /** @var bool */

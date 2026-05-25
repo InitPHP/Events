@@ -90,11 +90,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   **Coverage: 100% lines / 100% methods / 100% classes** across `src/`
   (excluding `aliases.php`, which is verified by a dedicated BC alias
   test instead).
-- New CI workflow (`.github/workflows/ci.yml`):
-  - PHP 7.3 / 7.4 / 8.0 / 8.1 / 8.2 / 8.3 / 8.4 — `composer install`
-    + `phpunit`.
-  - PHP 5.6 / 7.0 / 7.1 / 7.2 — `php -l` on every source file and a
-    Composer-free autoload smoke test, to keep the
+- **PHPStan static analysis at level 8**, clean across `src/` and
+  `tests/`. Configuration in `phpstan.neon.dist`; runtime contract
+  preserved (no scalar type-hints injected). `composer analyse` runs it.
+- New CI workflow (`.github/workflows/ci.yml`) with four jobs:
+  - `tests` — PHP 7.3 / 7.4 / 8.0 / 8.1 / 8.2 / 8.3 / 8.4 — `composer
+    install` + `phpunit`.
+  - `static-analysis` — PHPStan level 8 on PHP 8.3.
+  - `code-style` — PHP-CS-Fixer dry-run on PHP 8.3.
+  - `lowest-php-syntax` — PHP 5.6 / 7.0 / 7.1 / 7.2 — `php -l` on every
+    source file and a Composer-free autoload smoke test, to keep the
     `composer.json: php >= 5.6` contract honest.
 - `composer.json` now declares `autoload-dev` for the test suite,
   `keywords`, `support` URLs, a `scripts.test` entry, and

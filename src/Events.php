@@ -46,11 +46,21 @@ class Events
     /** @var Event|null */
     protected static $Instance;
 
+    /**
+     * @param string $name
+     * @param array<int, mixed> $arguments
+     * @return mixed
+     */
     public function __call($name, $arguments)
     {
         return self::getInstance()->{$name}(...$arguments);
     }
 
+    /**
+     * @param string $name
+     * @param array<int, mixed> $arguments
+     * @return mixed
+     */
     public static function __callStatic($name, $arguments)
     {
         return self::getInstance()->{$name}(...$arguments);

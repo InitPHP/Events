@@ -29,10 +29,15 @@ use function strtolower;
 
 class EventEmitter implements EventEmitterInterface
 {
-    /** @var array */
+    /**
+     * Map of <event-name, <priority, list<callable>>>. Event names are
+     * always stored lower-cased so lookups are case-insensitive.
+     *
+     * @var array<string, array<int, list<callable>>>
+     */
     protected $listeners = [];
 
-    /** @var array */
+    /** @var array<string, array<int, list<callable>>> */
     protected $onceListeners = [];
 
     /**
@@ -116,6 +121,8 @@ class EventEmitter implements EventEmitterInterface
 
     /**
      * @inheritDoc
+     *
+     * @return list<callable>
      */
     public function listeners($event = null)
     {
@@ -164,6 +171,8 @@ class EventEmitter implements EventEmitterInterface
 
     /**
      * @inheritDoc
+     *
+     * @param array<int|string, mixed> $arguments
      */
     public function emit($event, $arguments = [])
     {
@@ -206,6 +215,14 @@ class EventEmitter implements EventEmitterInterface
         }
     }
 
+    /**
+     * @param 'listeners'|'onceListeners' $property
+     * @param string $event
+     * @param callable $listener
+     * @param int $priority
+     * @return void
+     * @throws InvalidArgumentException
+     */
     private function addListener($property, $event, $listener, $priority = 100)
     {
         if (!is_string($event)) {

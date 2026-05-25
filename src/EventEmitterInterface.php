@@ -49,14 +49,14 @@ interface EventEmitterInterface
 
     /**
      * @param null|string $event
-     * @return array
+     * @return list<callable>
      * @throws \InvalidArgumentException <p>If $event is not string or null.</p>
      */
     public function listeners($event = null);
 
     /**
      * @param string $event
-     * @param array $arguments
+     * @param array<int|string, mixed> $arguments
      * @return void
      * @throws \InvalidArgumentException
      */
