@@ -229,4 +229,92 @@ final class EventEmitterTest extends TestCase
         $this->expectException(InvalidArgumentException::class);
         $this->emitter->emit('e', 'not-an-array');
     }
+
+    public function test_remove_listener_rejects_non_string_event(): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+        $this->emitter->removeListener(42, function (): void {});
+    }
+
+    public function test_remove_listener_rejects_non_callable_listener(): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+        $this->emitter->removeListener('e', 'definitely-not-a-callable-anywhere');
+    }
+
+    public function test_remove_listener_is_a_silent_noop_when_the_listener_is_not_registered(): void
+    {
+        $registered = function (): void {};
+        $stranger   = function (): void {};
+
+        // Hit both branches: removeListener walks BOTH the regular and
+        // once registries and, in each one, skips priority buckets
+        // where the listener is not found.
+        $this->emitter->on('e', $registered, 10);
+        $this->emitter->once('e', $registered, 20);
+
+        $this->emitter->removeListener('e', $stranger);
+
+        // The actually-registered listener must still be there.
+        $this->assertCount(2, $this->emitter->listeners('e'));
+    }
+
+    public function test_remove_all_listeners_rejects_non_string_non_null_event(): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+        $this->emitter->removeAllListeners(42);
+    }
+
+    public function test_listeners_rejects_non_string_non_null_event(): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+        $this->emitter->listeners(42);
+    }
+
+    public function test_clear_once_listeners_for_a_specific_event_drops_only_that_events_once_listeners(): void
+    {
+        $aFires = 0;
+        $bFires = 0;
+
+        $this->emitter->once('a', function () use (&$aFires): void { $aFires++; });
+        $this->emitter->once('b', function () use (&$bFires): void { $bFires++; });
+
+        $this->emitter->clearOnceListeners('a');
+
+        $this->emitter->emit('a');
+        $this->emitter->emit('b');
+
+        $this->assertSame(0, $aFires, 'once-listener for "a" must have been dropped without firing.');
+        $this->assertSame(1, $bFires, 'once-listener for "b" must still fire.');
+    }
+
+    public function test_clear_once_listeners_with_no_argument_drops_every_one_shot_listener(): void
+    {
+        $fired = 0;
+
+        $this->emitter->once('a', function () use (&$fired): void { $fired++; });
+        $this->emitter->once('b', function () use (&$fired): void { $fired++; });
+        // Regular listener must NOT be touched.
+        $this->emitter->on('c', function () use (&$fired): void { $fired++; });
+
+        $this->emitter->clearOnceListeners();
+
+        $this->emitter->emit('a');
+        $this->emitter->emit('b');
+        $this->emitter->emit('c');
+
+        $this->assertSame(1, $fired, 'Only the regular listener for "c" must have fired.');
+    }
+
+    public function test_clear_once_listeners_rejects_non_string_non_null_event(): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+        $this->emitter->clearOnceListeners(42);
+    }
+
+    public function test_clear_once_listeners_for_an_unknown_event_is_a_silent_noop(): void
+    {
+        $this->emitter->clearOnceListeners('never.registered');
+        $this->addToAssertionCount(1);
+    }
 }

@@ -83,10 +83,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Replaced `::class` arguments to `class_exists()` / `interface_exists()`
   in `src/aliases.php` with plain string literals — functionally
   equivalent, but removes the compile-time constant dependency.
-- 59 unit tests, 99 assertions covering the priority contract,
+- 69 unit tests, 110 assertions covering the priority contract,
   short-circuit semantics, simulate / debug modes, once + removal,
   fluent API, exception paths, the static facade lifecycle, and the
   backwards-compatibility alias for `\InitPHP\EventEmitter\*`.
+  **Coverage: 100% lines / 100% methods / 100% classes** across `src/`
+  (excluding `aliases.php`, which is verified by a dedicated BC alias
+  test instead).
 - New CI workflow (`.github/workflows/ci.yml`):
   - PHP 7.3 / 7.4 / 8.0 / 8.1 / 8.2 / 8.3 / 8.4 — `composer install`
     + `phpunit`.

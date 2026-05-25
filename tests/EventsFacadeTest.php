@@ -168,4 +168,25 @@ final class EventsFacadeTest extends TestCase
 
         $this->assertSame([], Events::getEmitter()->listeners());
     }
+
+    /**
+     * The Events class also defines a non-static __call() that mirrors
+     * its __callStatic(). It's there so `(new Events())->on(...)` works
+     * (e.g. an instance accidentally created via reflection or
+     * dependency-injection). Both magic methods forward to the same
+     * shared singleton.
+     */
+    public function test_instance_call_magic_forwards_to_the_shared_singleton(): void
+    {
+        $facade = new Events();
+
+        $hits = 0;
+        $facade->on('e', function () use (&$hits): void { $hits++; });
+
+        // The listener landed on the shared instance — the static
+        // trigger sees it too.
+        Events::trigger('e');
+
+        $this->assertSame(1, $hits);
+    }
 }
