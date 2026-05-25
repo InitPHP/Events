@@ -15,14 +15,14 @@
  * @see https://github.com/InitPHP/Events#migrating-from-initphpevent-emitter
  */
 
-if (!class_exists(\InitPHP\EventEmitter\EventEmitter::class, false)) {
+if (!class_exists('InitPHP\\EventEmitter\\EventEmitter', false)) {
     class_alias(
         \InitPHP\Events\EventEmitter::class,
         'InitPHP\\EventEmitter\\EventEmitter'
     );
 }
 
-if (!interface_exists(\InitPHP\EventEmitter\EventEmitterInterface::class, false)) {
+if (!interface_exists('InitPHP\\EventEmitter\\EventEmitterInterface', false)) {
     class_alias(
         \InitPHP\Events\EventEmitterInterface::class,
         'InitPHP\\EventEmitter\\EventEmitterInterface'

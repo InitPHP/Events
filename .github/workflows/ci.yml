@@ -1,0 +1,105 @@
+name: CI
+
+on:
+  push:
+    branches: [main, "2.x", "feat/*", "fix/*"]
+  pull_request:
+    branches: [main, "2.x"]
+
+jobs:
+  tests:
+    name: Tests · PHP ${{ matrix.php }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        php: ["7.3", "7.4", "8.0", "8.1", "8.2", "8.3", "8.4"]
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup PHP ${{ matrix.php }}
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          coverage: none
+          tools: composer:v2
+          ini-values: error_reporting=E_ALL, display_errors=On
+
+      - name: Validate composer.json
+        run: composer validate --strict
+
+      - name: Get Composer cache directory
+        id: composer-cache
+        run: echo "dir=$(composer config cache-files-dir)" >> "$GITHUB_OUTPUT"
+
+      - name: Cache Composer packages
+        uses: actions/cache@v4
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-php${{ matrix.php }}-composer-${{ hashFiles('**/composer.json') }}
+          restore-keys: |
+            ${{ runner.os }}-php${{ matrix.php }}-composer-
+
+      - name: Install dependencies
+        run: composer install --prefer-dist --no-progress --no-interaction
+
+      - name: Run PHPUnit
+        run: vendor/bin/phpunit --testdox
+
+  lowest-php-syntax:
+    name: Syntax · PHP ${{ matrix.php }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        php: ["5.6", "7.0", "7.1", "7.2"]
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup PHP ${{ matrix.php }}
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          coverage: none
+          # No Composer install on these PHP versions: PHPUnit 9.6
+          # requires PHP >= 7.3, but composer.json keeps a "php: >=5.6"
+          # contract for library consumers. We only verify that the
+          # source files themselves parse cleanly on these interpreters.
+
+      - name: Lint src/
+        run: find src -type f -name '*.php' -print0 | xargs -0 -n1 php -l
+
+      - name: Autoload smoke test
+        run: |
+          php -r '
+            spl_autoload_register(function ($class) {
+                $prefix = "InitPHP\\\\Events\\\\";
+                if (strpos($class, $prefix) !== 0) {
+                    return;
+                }
+                $relative = substr($class, strlen($prefix));
+                $file = __DIR__ . "/src/" . str_replace("\\\\", "/", $relative) . ".php";
+                if (is_file($file)) {
+                    require $file;
+                }
+            });
+            require __DIR__ . "/src/aliases.php";
+            $emitter = new InitPHP\Events\EventEmitter();
+            $hit = false;
+            $emitter->on("ping", function () use (&$hit) { $hit = true; });
+            $emitter->emit("ping");
+            if (!$hit) {
+                fwrite(STDERR, "smoke test failed: listener not invoked\n");
+                exit(1);
+            }
+            $legacy = "InitPHP\\\\EventEmitter\\\\EventEmitter";
+            if (!class_exists($legacy)) {
+                fwrite(STDERR, "smoke test failed: BC alias missing\n");
+                exit(1);
+            }
+            echo "smoke ok\n";
+          '
