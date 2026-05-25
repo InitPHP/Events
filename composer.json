@@ -1,16 +1,17 @@
 {
     "name": "initphp/events",
-    "description": "Events (Hook) Library — now bundles the EventEmitter primitive previously distributed as initphp/event-emitter.",
+    "description": "Events (Hook) library — bundles the EventEmitter primitive previously distributed as initphp/event-emitter.",
     "type": "library",
     "license": "MIT",
-    "autoload": {
-        "psr-4": {
-            "InitPHP\\Events\\": "src/"
-        },
-        "files": [
-            "src/aliases.php"
-        ]
-    },
+    "keywords": [
+        "events",
+        "event-dispatcher",
+        "event-emitter",
+        "hooks",
+        "pubsub",
+        "observer",
+        "initphp"
+    ],
     "authors": [
         {
             "name": "Muhammet ŞAFAK",
@@ -19,11 +20,38 @@
             "homepage": "https://www.muhammetsafak.com.tr"
         }
     ],
-    "minimum-stability": "stable",
+    "support": {
+        "source": "https://github.com/InitPHP/Events",
+        "issues": "https://github.com/InitPHP/Events/issues"
+    },
     "require": {
         "php": ">=5.6"
     },
+    "require-dev": {
+        "phpunit/phpunit": "^9.6"
+    },
+    "autoload": {
+        "psr-4": {
+            "InitPHP\\Events\\": "src/"
+        },
+        "files": [
+            "src/aliases.php"
+        ]
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "InitPHP\\Events\\Tests\\": "tests/"
+        }
+    },
     "replace": {
         "initphp/event-emitter": "*"
-    }
+    },
+    "scripts": {
+        "test": "phpunit"
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "minimum-stability": "stable",
+    "prefer-stable": true
 }

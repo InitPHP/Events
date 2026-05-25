@@ -128,19 +128,33 @@ class EventEmitter implements EventEmitterInterface
             $eventNames = [$event];
         }
         foreach ($eventNames as $eventName) {
-            $event = strtolower($eventName);
-            $listeners = isset($this->listeners[$event]) ? $this->listeners[$event] : [];
-            foreach ($listeners as $values) {
-                ksort($values);
-                foreach ($values as $value) {
-                    $events[] = $value;
+            $key = strtolower($eventName);
+
+            // Merge regular and once listeners by priority, preserving
+            // insertion order (FIFO) inside each priority bucket.
+            $byPriority = [];
+            if (isset($this->listeners[$key])) {
+                foreach ($this->listeners[$key] as $priority => $bucket) {
+                    foreach ($bucket as $listener) {
+                        $byPriority[$priority][] = $listener;
+                    }
                 }
             }
-            $listeners = isset($this->onceListeners[$event]) ? $this->onceListeners[$event] : [];
-            foreach ($listeners as $values) {
-                ksort($values);
-                foreach ($values as $value) {
-                    $events[] = $value;
+            if (isset($this->onceListeners[$key])) {
+                foreach ($this->onceListeners[$key] as $priority => $bucket) {
+                    foreach ($bucket as $listener) {
+                        $byPriority[$priority][] = $listener;
+                    }
+                }
+            }
+
+            // Lower numeric priority must fire first (PRIORITY_HIGH = 10,
+            // PRIORITY_LOW = 200), independent of registration order.
+            ksort($byPriority);
+
+            foreach ($byPriority as $bucket) {
+                foreach ($bucket as $listener) {
+                    $events[] = $listener;
                 }
             }
         }
