@@ -6,7 +6,7 @@ high-level dispatcher with WordPress-style `do_action`-like semantics
 log) and a plain low-level `EventEmitter` you can instantiate and pass
 around like any other object.
 
-[![Designed & Maintained with Tan](https://www.muhammetsafak.com.tr/badges/designed-maintained-with-tan.svg)](https://www.muhammetsafak.com.tr/en/tan/)
+[![Designed & Maintained with Tan](https://muhammetsafak.com/badges/designed-maintained-with-tan.svg)](https://muhammetsafak.com/tan/)
 [![CI](https://github.com/InitPHP/Events/actions/workflows/ci.yml/badge.svg)](https://github.com/InitPHP/Events/actions/workflows/ci.yml)
 [![Latest Stable Version](https://poser.pugx.org/initphp/events/v)](https://packagist.org/packages/initphp/events)
 [![Total Downloads](https://poser.pugx.org/initphp/events/downloads)](https://packagist.org/packages/initphp/events)
@@ -336,7 +336,7 @@ honest.
 
 ## Credits
 
-- [Muhammet ŞAFAK](https://www.muhammetsafak.com.tr) <<info@muhammetsafak.com.tr>>
+- [Muhammet ŞAFAK](https://muhammetsafak.com) <<info@muhammetsafak.com>>
 
 ## License
 
