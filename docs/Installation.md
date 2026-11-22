@@ -66,14 +66,14 @@ composer update initphp/events
 ```json
 {
     "require": {
-        "initphp/events": "^2.0"
+        "initphp/events": "^3.0"
     }
 }
 ```
 
 If you are on a PHP version older than 8.2, the newest release that supports it
-is 2.1.0 (its `composer.json` requires PHP `>=5.6`); the release that raises the
-minimum to PHP 8.2 is a breaking change (see the
+is 2.1.0 (its `composer.json` requires PHP `>=5.6`); 3.0.0 raises the
+minimum to PHP 8.2 and is a breaking change (see the
 [Changelog](https://github.com/InitPHP/Events/blob/main/CHANGELOG.md)). Lock to
 the 2.1 line with:
 

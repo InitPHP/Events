@@ -136,7 +136,7 @@ instance unless your runtime serialises access.
 
 ## What PHP versions are supported?
 
-The current `main` branch requires **PHP 8.2+**, and CI runs the full PHPUnit
+Version 3.0.0 and later require **PHP 8.2+**, and CI runs the full PHPUnit
 suite on PHP 8.2, 8.3, 8.4 and 8.5. Releases up to and including 2.1.0 declared
 `php >=5.6`; if you are on an older PHP, lock to `^2.1` (see
 [Installation](Installation.md#composer-constraint-examples)).

@@ -8,13 +8,13 @@ This guide covers three migrations:
 2. **From `initphp/events:^1.0` → `initphp/events:^2.0`** — the same
    high-level `Events` facade, now bundling the low-level `EventEmitter`
    primitive.
-3. **From `initphp/events` 2.x → the next release** — the PHP minimum
+3. **From `initphp/events` 2.x → 3.0.0** — the PHP minimum
    moves to 8.2.
 
 In the first two cases the upgrade path is intentionally gentle: your
 existing code keeps compiling.
 
-## From 2.x → the next release (unreleased)
+## From 2.x → 3.0.0
 
 | Before | After |
 | --- | --- |
@@ -31,6 +31,7 @@ project's code style also moved to PER-CS, which affects contributors only.
 | --- | --- |
 | `2.0.0` | Merged the standalone `initphp/event-emitter` package: bundled `EventEmitter` and `EventEmitterInterface`, `replace` declaration, BC aliases. |
 | `2.1.0` | Priority order is honoured; `Event::on()` default priority is `PRIORITY_NORMAL`; once-listeners fire at most once through `Event`; new `Event::once()` / `off()` / `removeAllListeners()` / `clearDebug()` / `getEmitter()`; new `Events::reset()` / `setInstance()`, public `Events::getInstance()`; `EventEmitterInterface::clearOnceListeners()`. |
+| `3.0.0` | PHP minimum raised to `^8.2`, code style moved to PER-CS; API unchanged (see [From 2.x → 3.0.0](#from-2x--300)). |
 
 The changelog entry for 2.1.0 covers the whole 2.x line, because 2.0.0
 shipped without a changelog.
