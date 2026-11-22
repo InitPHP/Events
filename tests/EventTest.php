@@ -69,7 +69,8 @@ final class EventTest extends TestCase
         $this->event->on('e', function () {
             return true;
         });
-        $this->event->on('e', function () { /* implicit null */
+        $this->event->on('e', function () {
+            // implicit null
         });
 
         $this->assertTrue($this->event->trigger('e'));

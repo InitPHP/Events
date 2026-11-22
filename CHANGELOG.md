@@ -15,6 +15,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Code style moved to PER-CS (php-cs-fixer, shared `.php-cs-fixer.dist.php`,
   replacing the previous PSR-12 configuration); the codebase has been
   reformatted accordingly.
+
+## [2.1.0] - 2026-05-25
+
+The entries below cover the whole 2.x line (2.0.0 shipped without a changelog).
+
+### Breaking changes
+
 - **`EventEmitter` now honours priority.** Listeners are dispatched in
   ascending numeric priority order regardless of the order in which
   they were registered. In 1.x they ran in registration order; the
