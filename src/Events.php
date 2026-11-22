@@ -39,9 +39,9 @@ namespace InitPHP\Events;
  */
 class Events
 {
-    const PRIORITY_LOW = Event::PRIORITY_LOW;
-    const PRIORITY_NORMAL = Event::PRIORITY_NORMAL;
-    const PRIORITY_HIGH = Event::PRIORITY_HIGH;
+    public const PRIORITY_LOW = Event::PRIORITY_LOW;
+    public const PRIORITY_NORMAL = Event::PRIORITY_NORMAL;
+    public const PRIORITY_HIGH = Event::PRIORITY_HIGH;
 
     /** @var Event|null */
     protected static $Instance;

@@ -72,7 +72,9 @@ final class EventsFacadeTest extends TestCase
 
     public function test_trigger_returns_false_when_a_listener_returns_false(): void
     {
-        Events::on('halt', function () { return false; });
+        Events::on('halt', function () {
+            return false;
+        });
 
         $this->assertFalse(Events::trigger('halt'));
     }
@@ -119,7 +121,9 @@ final class EventsFacadeTest extends TestCase
     public function test_reset_drops_previously_registered_listeners(): void
     {
         $hits = 0;
-        Events::on('e', function () use (&$hits): void { $hits++; });
+        Events::on('e', function () use (&$hits): void {
+            $hits++;
+        });
 
         Events::reset();
         Events::trigger('e');
@@ -139,7 +143,9 @@ final class EventsFacadeTest extends TestCase
     public function test_once_through_the_facade_fires_only_once(): void
     {
         $calls = 0;
-        Events::once('tick', function () use (&$calls): void { $calls++; });
+        Events::once('tick', function () use (&$calls): void {
+            $calls++;
+        });
 
         Events::trigger('tick');
         Events::trigger('tick');
@@ -150,7 +156,9 @@ final class EventsFacadeTest extends TestCase
     public function test_off_through_the_facade_removes_a_listener(): void
     {
         $hits = 0;
-        $cb = function () use (&$hits): void { $hits++; };
+        $cb = function () use (&$hits): void {
+            $hits++;
+        };
 
         Events::on('e', $cb);
         Events::off('e', $cb);
@@ -181,7 +189,9 @@ final class EventsFacadeTest extends TestCase
         $facade = new Events();
 
         $hits = 0;
-        $facade->on('e', function () use (&$hits): void { $hits++; });
+        $facade->on('e', function () use (&$hits): void {
+            $hits++;
+        });
 
         // The listener landed on the shared instance — the static
         // trigger sees it too.

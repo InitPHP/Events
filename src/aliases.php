@@ -19,13 +19,13 @@
 if (!class_exists('InitPHP\\EventEmitter\\EventEmitter', false)) {
     class_alias(
         \InitPHP\Events\EventEmitter::class,
-        'InitPHP\\EventEmitter\\EventEmitter'
+        'InitPHP\\EventEmitter\\EventEmitter',
     );
 }
 
 if (!interface_exists('InitPHP\\EventEmitter\\EventEmitterInterface', false)) {
     class_alias(
         \InitPHP\Events\EventEmitterInterface::class,
-        'InitPHP\\EventEmitter\\EventEmitterInterface'
+        'InitPHP\\EventEmitter\\EventEmitterInterface',
     );
 }

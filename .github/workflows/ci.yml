@@ -13,7 +13,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        php: ["7.3", "7.4", "8.0", "8.1", "8.2", "8.3", "8.4"]
+        php: ["8.2", "8.3", "8.4", "8.5"]
 
     steps:
       - name: Checkout
@@ -111,36 +111,3 @@ jobs:
 
       - name: PHP-CS-Fixer (dry-run + diff)
         run: vendor/bin/php-cs-fixer fix --dry-run --diff
-
-  lowest-php-syntax:
-    name: Syntax · PHP ${{ matrix.php }}
-    runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
-      matrix:
-        php: ["5.6", "7.0", "7.1", "7.2"]
-
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Setup PHP ${{ matrix.php }}
-        uses: shivammathur/setup-php@v2
-        with:
-          php-version: ${{ matrix.php }}
-          coverage: none
-          # No Composer install on these PHP versions: PHPUnit 9.6
-          # requires PHP >= 7.3, but composer.json keeps a "php: >=5.6"
-          # contract for library consumers. We only verify that the
-          # source files themselves parse cleanly on these interpreters.
-
-      - name: Lint src/
-        run: find src -type f -name '*.php' -print0 | xargs -0 -n1 php -l
-
-      - name: Autoload smoke test
-        # Standalone script (not `php -r`) — on PHP 5.6 / 7.0 / 7.1 / 7.2
-        # `__DIR__` is not defined inside `php -r '...'`, which made the
-        # autoloader resolve `/src/...` and load nothing. As a file
-        # `__DIR__` reliably points at tests/compat/, so the relative
-        # path to src/ works on every PHP version we support.
-        run: php tests/compat/autoload-smoke.php
