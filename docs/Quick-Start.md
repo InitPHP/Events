@@ -140,7 +140,8 @@ The same flow via `EventEmitter`:
 
 ```php
 $emitter->on('user.registered', function (array $user, string $source) { /* … */ });
-$emitter->emit('user.registered', [['email' => 'jane@example.com'], 'web']);
+$user = ['email' => 'jane@example.com'];
+$emitter->emit('user.registered', [$user, 'web']);
 ```
 
 ## Multiple listeners on one event

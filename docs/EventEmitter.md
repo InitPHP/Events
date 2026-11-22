@@ -263,13 +263,17 @@ $bus
         echo "first-ever order welcomed: {$order['email']}\n";
     });
 
-$bus->emit('order.placed', [['id' => 1, 'email' => 'a@x']]);
-$bus->emit('order.placed', [['id' => 2, 'email' => 'b@x']]);
+$order1 = ['id' => 1, 'email' => 'a@x'];
+$order2 = ['id' => 2, 'email' => 'b@x'];
+$order3 = ['id' => 3, 'email' => 'c@x'];
+
+$bus->emit('order.placed', [$order1]);
+$bus->emit('order.placed', [$order2]);
 
 // Drop the audit logger for the third call.
 $bus->removeListener('order.placed', $logger);
 
-$bus->emit('order.placed', [['id' => 3, 'email' => 'c@x']]);
+$bus->emit('order.placed', [$order3]);
 ```
 
 Output:
