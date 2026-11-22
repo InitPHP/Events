@@ -25,7 +25,7 @@ final class BackwardsCompatibilityAliasTest extends TestCase
     {
         $this->assertTrue(
             class_exists('InitPHP\\EventEmitter\\EventEmitter'),
-            'The legacy class \\InitPHP\\EventEmitter\\EventEmitter must remain available via the BC alias.'
+            'The legacy class \\InitPHP\\EventEmitter\\EventEmitter must remain available via the BC alias.',
         );
     }
 
@@ -33,7 +33,7 @@ final class BackwardsCompatibilityAliasTest extends TestCase
     {
         $this->assertTrue(
             interface_exists('InitPHP\\EventEmitter\\EventEmitterInterface'),
-            'The legacy interface \\InitPHP\\EventEmitter\\EventEmitterInterface must remain available via the BC alias.'
+            'The legacy interface \\InitPHP\\EventEmitter\\EventEmitterInterface must remain available via the BC alias.',
         );
     }
 

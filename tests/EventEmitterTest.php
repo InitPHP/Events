@@ -95,7 +95,7 @@ final class EventEmitterTest extends TestCase
         $this->assertSame(
             ['priority-10', 'priority-99', 'priority-100'],
             $order,
-            'Listeners must execute in ascending priority order regardless of the order in which they were registered.'
+            'Listeners must execute in ascending priority order regardless of the order in which they were registered.',
         );
     }
 
@@ -103,9 +103,15 @@ final class EventEmitterTest extends TestCase
     {
         $order = [];
 
-        $this->emitter->on('e', function () use (&$order): void { $order[] = 'first'; }, 50);
-        $this->emitter->on('e', function () use (&$order): void { $order[] = 'second'; }, 50);
-        $this->emitter->on('e', function () use (&$order): void { $order[] = 'third'; }, 50);
+        $this->emitter->on('e', function () use (&$order): void {
+            $order[] = 'first';
+        }, 50);
+        $this->emitter->on('e', function () use (&$order): void {
+            $order[] = 'second';
+        }, 50);
+        $this->emitter->on('e', function () use (&$order): void {
+            $order[] = 'third';
+        }, 50);
 
         $this->emitter->emit('e');
 
@@ -276,8 +282,12 @@ final class EventEmitterTest extends TestCase
         $aFires = 0;
         $bFires = 0;
 
-        $this->emitter->once('a', function () use (&$aFires): void { $aFires++; });
-        $this->emitter->once('b', function () use (&$bFires): void { $bFires++; });
+        $this->emitter->once('a', function () use (&$aFires): void {
+            $aFires++;
+        });
+        $this->emitter->once('b', function () use (&$bFires): void {
+            $bFires++;
+        });
 
         $this->emitter->clearOnceListeners('a');
 
@@ -292,10 +302,16 @@ final class EventEmitterTest extends TestCase
     {
         $fired = 0;
 
-        $this->emitter->once('a', function () use (&$fired): void { $fired++; });
-        $this->emitter->once('b', function () use (&$fired): void { $fired++; });
+        $this->emitter->once('a', function () use (&$fired): void {
+            $fired++;
+        });
+        $this->emitter->once('b', function () use (&$fired): void {
+            $fired++;
+        });
         // Regular listener must NOT be touched.
-        $this->emitter->on('c', function () use (&$fired): void { $fired++; });
+        $this->emitter->on('c', function () use (&$fired): void {
+            $fired++;
+        });
 
         $this->emitter->clearOnceListeners();
 

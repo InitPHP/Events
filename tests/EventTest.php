@@ -66,8 +66,12 @@ final class EventTest extends TestCase
 
     public function test_trigger_returns_true_when_no_listener_short_circuits(): void
     {
-        $this->event->on('e', function () { return true; });
-        $this->event->on('e', function () { /* implicit null */ });
+        $this->event->on('e', function () {
+            return true;
+        });
+        $this->event->on('e', function () {
+            // implicit null
+        });
 
         $this->assertTrue($this->event->trigger('e'));
     }
@@ -194,9 +198,15 @@ final class EventTest extends TestCase
     {
         $order = [];
 
-        $this->event->on('boot', function () use (&$order): void { $order[] = 'default'; });
-        $this->event->on('boot', function () use (&$order): void { $order[] = 'high'; }, Event::PRIORITY_HIGH);
-        $this->event->on('boot', function () use (&$order): void { $order[] = 'low'; }, Event::PRIORITY_LOW);
+        $this->event->on('boot', function () use (&$order): void {
+            $order[] = 'default';
+        });
+        $this->event->on('boot', function () use (&$order): void {
+            $order[] = 'high';
+        }, Event::PRIORITY_HIGH);
+        $this->event->on('boot', function () use (&$order): void {
+            $order[] = 'low';
+        }, Event::PRIORITY_LOW);
 
         $this->event->trigger('boot');
 
@@ -242,8 +252,12 @@ final class EventTest extends TestCase
     public function test_off_removes_a_specific_listener(): void
     {
         $hits = [];
-        $a = function () use (&$hits): void { $hits[] = 'a'; };
-        $b = function () use (&$hits): void { $hits[] = 'b'; };
+        $a = function () use (&$hits): void {
+            $hits[] = 'a';
+        };
+        $b = function () use (&$hits): void {
+            $hits[] = 'b';
+        };
 
         $this->event->on('e', $a)->on('e', $b)->off('e', $a)->trigger('e');
 
@@ -256,8 +270,12 @@ final class EventTest extends TestCase
         $bHits = 0;
 
         $this->event
-            ->on('a', function () use (&$aHits): void { $aHits++; })
-            ->on('b', function () use (&$bHits): void { $bHits++; });
+            ->on('a', function () use (&$aHits): void {
+                $aHits++;
+            })
+            ->on('b', function () use (&$bHits): void {
+                $bHits++;
+            });
 
         $this->event->removeAllListeners('a');
 

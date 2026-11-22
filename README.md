@@ -45,7 +45,7 @@ zero runtime dependencies.
 
 | Requirement | Version |
 | --- | --- |
-| PHP | `>= 5.6` (runtime); PHP `>= 7.3` to run the test suite (PHPUnit 9.6) |
+| PHP | `>= 8.2` |
 | Extensions | none |
 | Composer dependencies | none |
 
@@ -324,9 +324,7 @@ composer install
 composer test         # PHPUnit
 ```
 
-CI runs the test suite across PHP 7.3 – 8.4 and also lints the source
-on PHP 5.6 / 7.0 / 7.1 / 7.2 so the `php >= 5.6` library contract stays
-honest.
+CI runs the test suite across PHP 8.2 – 8.5.
 
 ## Contributing & Security
 

@@ -39,9 +39,9 @@ use function microtime;
  */
 final class Event
 {
-    const PRIORITY_LOW = 200;
-    const PRIORITY_NORMAL = 100;
-    const PRIORITY_HIGH = 10;
+    public const PRIORITY_LOW = 200;
+    public const PRIORITY_NORMAL = 100;
+    public const PRIORITY_HIGH = 10;
 
     /** @var EventEmitter */
     protected $emitter;

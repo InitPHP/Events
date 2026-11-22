@@ -9,6 +9,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Breaking changes
 
+- **Requires PHP `^8.2`** (was `>=5.6`); PHP 5.6 through 8.1 are no longer
+  supported. CI now covers PHP 8.2, 8.3, 8.4 and 8.5, and the PHP 5.6 – 7.2
+  syntax-lint job has been removed.
+- Code style moved to PER-CS (php-cs-fixer, shared `.php-cs-fixer.dist.php`,
+  replacing the previous PSR-12 configuration); the codebase has been
+  reformatted accordingly.
+
+## [2.1.0] - 2026-05-25
+
+The entries below cover the whole 2.x line (2.0.0 shipped without a changelog).
+
+### Breaking changes
+
 - **`EventEmitter` now honours priority.** Listeners are dispatched in
   ascending numeric priority order regardless of the order in which
   they were registered. In 1.x they ran in registration order; the
