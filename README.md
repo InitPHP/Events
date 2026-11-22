@@ -200,7 +200,7 @@ Rules:
 4. Event names are matched **case-insensitively**: `on('User.Created')`
    and `emit('user.created')` see the same listener.
 
-See [docs/04-priorities-and-ordering.md](docs/04-priorities-and-ordering.md)
+See [docs/Listeners-and-Priorities.md](docs/Listeners-and-Priorities.md)
 for the full ordering contract, including how `once()` interacts with
 the priority queue.
 
@@ -217,7 +217,7 @@ The `once()` contract is honoured even when the chain is stopped by a
 `false` return — a one-shot listener that runs (or that *would have*
 run, but for a short-circuit earlier in the queue) is dropped after
 the trigger completes. See
-[docs/05-once-and-removal.md](docs/05-once-and-removal.md).
+[docs/Once-and-Removal.md](docs/Once-and-Removal.md).
 
 ## Simulate mode and debug log
 
@@ -235,7 +235,7 @@ $dispatcher->getDebug();          // [['start' => ..., 'end' => ..., 'event' => 
 $dispatcher->clearDebug();        // empty the log
 ```
 
-See [docs/06-debug-and-simulate.md](docs/06-debug-and-simulate.md).
+See [docs/Simulate-and-Debug.md](docs/Simulate-and-Debug.md).
 
 ## Public API
 
@@ -265,7 +265,7 @@ See [docs/06-debug-and-simulate.md](docs/06-debug-and-simulate.md).
 | `setInstance(Event): void` | `Events` | Inject a pre-configured dispatcher. |
 | `reset(): void` | `Events` | Drop the shared instance (tests, lifecycle resets). |
 
-Full signatures and exception behaviour: [docs/09-api-reference.md](docs/09-api-reference.md).
+Full signatures and exception behaviour: [docs/API-Reference.md](docs/API-Reference.md).
 
 ## Migrating from `initphp/event-emitter`
 
@@ -300,22 +300,24 @@ individual listener, so emitted events silently fired no listeners at
 all. That is fixed in 2.0 — if you had quietly broken `emit()` calls
 in 1.x, they will now actually run their listeners.
 
-See [docs/07-migration-from-event-emitter.md](docs/07-migration-from-event-emitter.md)
+See [docs/Migration-Guide.md](docs/Migration-Guide.md)
 for the full migration checklist.
 
 ## Documentation
 
-The full guide lives under [`docs/`](./docs/README.md):
+The full guide lives under [`docs/`](docs/Home.md):
 
-1. [Getting started](docs/01-getting-started.md)
-2. [The `Events` facade](docs/02-events-facade.md)
-3. [Using `EventEmitter` directly](docs/03-event-emitter.md)
-4. [Priorities and ordering](docs/04-priorities-and-ordering.md)
-5. [Once-listeners, removal, and cleanup](docs/05-once-and-removal.md)
-6. [Debug and simulate modes](docs/06-debug-and-simulate.md)
-7. [Migrating from `initphp/event-emitter`](docs/07-migration-from-event-emitter.md)
-8. [Recipes (plugin systems, request lifecycle, WordPress-style hooks)](docs/08-recipes.md)
-9. [API reference](docs/09-api-reference.md)
+1. [Installation](docs/Installation.md) and [Quick Start](docs/Quick-Start.md)
+2. [The `Events` facade](docs/Events-Facade.md)
+3. [Using `EventEmitter` directly](docs/EventEmitter.md)
+4. [Listeners and priorities](docs/Listeners-and-Priorities.md)
+5. [Once-listeners and removal](docs/Once-and-Removal.md)
+6. [Stopping propagation](docs/Stopping-Propagation.md)
+7. [Simulate and debug modes](docs/Simulate-and-Debug.md)
+8. [Recipes (plugin systems, request lifecycle, WordPress-style hooks)](docs/Recipes.md)
+9. [Troubleshooting](docs/Troubleshooting.md) and [FAQ](docs/FAQ.md)
+10. [API reference](docs/API-Reference.md)
+11. [Migrating from `initphp/event-emitter`](docs/Migration-Guide.md)
 
 ## Development
 
