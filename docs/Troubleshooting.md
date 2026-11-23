@@ -109,8 +109,10 @@ If you upgraded from `initphp/event-emitter` tag `1.0` and now your
 **expected**: tag `1.0` of the standalone package shipped with a bug
 where the entire listeners array (rather than each listener) was passed
 to `call_user_func_array`, so listeners never ran. The bug was fixed in
-`initphp/event-emitter` `1.0.1` and is not present in any `initphp/events`
-release.
+`initphp/event-emitter` `1.0.1` and no `initphp/events` release ever shipped
+the `EventEmitter` bug. `initphp/events` tag `1.0` did have the same mistake in
+`Event::trigger()` (fixed in `1.0.1`), so the same applies to `trigger()` calls
+if you are coming from that tag.
 
 If your old code relied on listeners *not* firing, audit those code
 paths before deploying. See [Migration Guide](Migration-Guide.md).

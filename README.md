@@ -298,9 +298,12 @@ from tag `1.0` of `initphp/event-emitter`: that tag's
 `EventEmitter::emit()` passed the whole listeners array to
 `call_user_func_array` instead of each individual listener, so emitted
 events silently fired no listeners at all. `initphp/event-emitter`
-`1.0.1` already fixed it and no `initphp/events` release has the bug —
-if you had quietly broken `emit()` calls on tag `1.0`, they will now
-actually run their listeners.
+`1.0.1` already fixed it, and no `initphp/events` release ever shipped
+the `EventEmitter` bug — if you had quietly broken `emit()` calls on tag
+`1.0`, they will now actually run their listeners. The same mistake
+existed in `Event::trigger()` of `initphp/events` tag `1.0` (fixed in
+`1.0.1`), so if you are coming from that tag, `trigger()` calls that
+looked silent will fire their listeners too.
 
 See [docs/Migration-Guide.md](docs/Migration-Guide.md)
 for the full migration checklist.
