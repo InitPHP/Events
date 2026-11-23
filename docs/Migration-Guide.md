@@ -2,14 +2,18 @@
 
 This guide covers three migrations:
 
-1. **From `initphp/event-emitter` (any 1.x) → `initphp/events:^2.0`** —
+1. **From `initphp/event-emitter` (any 1.x) → `initphp/events:^3.0`** —
    the standalone package has been merged into this one and is now
    deprecated.
-2. **From `initphp/events:^1.0` → `initphp/events:^2.0`** — the same
+2. **From `initphp/events:^1.0` → `initphp/events:^3.0`** — the same
    high-level `Events` facade, now bundling the low-level `EventEmitter`
    primitive.
 3. **From `initphp/events` 2.x → 3.0.0** — the PHP minimum
    moves to 8.2.
+
+`^3.0` is the current line and needs PHP `^8.2`. If you cannot move to
+PHP 8.2 yet, use `^2.1` instead in every command below: 2.x carries the same
+migration steps (everything marked 2.1.0 is in it) and runs on older PHP.
 
 In the first two cases the upgrade path is intentionally gentle: your
 existing code keeps compiling.
@@ -44,12 +48,12 @@ shipped without a changelog.
   {
       "require": {
 -         "initphp/event-emitter": "^1.0"
-+         "initphp/events": "^2.0"
++         "initphp/events": "^3.0"
       }
   }
 ```
 
-`initphp/events:^2.0` declares a Composer
+`initphp/events:^3.0` declares a Composer
 [`replace`](https://getcomposer.org/doc/04-schema.md#replace) for
 `initphp/event-emitter: *`, so Composer will refuse to install both
 side-by-side. No need to manually remove the old package — `composer
@@ -106,7 +110,9 @@ Tag `1.0` of the standalone `initphp/event-emitter` package shipped with
 a bug in `EventEmitter::emit()`: it passed the whole listeners array
 (rather than each individual listener) to `call_user_func_array`, so
 listeners never actually ran. Tag `1.0.1` already fixed it, and no
-`initphp/events` release has the bug.
+`initphp/events` release ever shipped this `EventEmitter` bug. The same
+mistake did exist in `Event::trigger()` of `initphp/events` tag `1.0` (fixed in
+`1.0.1`); see [the 1.x migration](#step-1--emit-and-the-standalone-package).
 
 Practical consequences:
 
@@ -124,7 +130,7 @@ Practical consequences:
 
 The standalone package sorted priorities at the wrong array level, so
 listeners ran in registration order. `initphp/events` honours priorities
-from 2.1.0 on — see [From `initphp/events:^1.0`](#from-initphpevents10--2x)
+from 2.1.0 on — see [From `initphp/events:^1.0`](#from-initphpevents10--3x)
 below.
 
 ### Step 4 — drop the shim eventually
@@ -134,10 +140,11 @@ Once your codebase imports only `InitPHP\Events\*`, the aliases in
 future major release of this package; clean up your `use` statements
 before then to avoid a hard break.
 
-## From `initphp/events:^1.0` → `2.x`
+## From `initphp/events:^1.0` → `3.x`
 
-`composer require initphp/events:^2.0` is the upgrade (Composer resolves it to
-the newest 2.x release that your PHP version allows). The high-level
+`composer require initphp/events:^3.0` is the upgrade (use `^2.1` if you are
+below PHP 8.2; Composer resolves either to the newest release of that line). The
+high-level
 [`Events`](Events-Facade.md) facade keeps the same method names and the
 same call shapes, so most code keeps compiling unchanged. But the
 package fixes two long-standing bugs whose visible behaviour shifts,
@@ -172,9 +179,18 @@ Additive — does not break anything if you ignore it:
 to code that used the standalone `initphp/event-emitter` package: its tag
 `1.0` had a bug where the entire listeners array (rather than each individual
 listener) was passed to `call_user_func_array` and listeners silently never
-ran. Tag `1.0.1` fixed it, and `initphp/events` has no such bug. See
+ran. Tag `1.0.1` fixed it, and no `initphp/events` release ever shipped this
+`EventEmitter` bug. See
 [the `emit()` bug fix](#behaviour-change-to-verify--emit-bug-fix-tag-10-only)
-above. Code that only used the `Events` facade is not affected.
+above.
+
+Code that only used the `Events` facade is not affected by that one, but tag
+`1.0` of `initphp/events` itself had the same mistake in `Event::trigger()`: it
+passed the whole listeners array to `call_user_func_array` instead of each
+listener, so `Events::trigger()` never ran its listeners. Tag `1.0.1` fixed it.
+If you are coming from exactly `1.0`, `trigger()` calls that looked silent will
+start firing their listeners — audit them the same way as the `emit()` call
+sites above.
 
 ### Step 2 — listeners now run in priority order (2.1.0)
 
@@ -248,16 +264,16 @@ The bundled `EventEmitter` of course implements it.
 ### Step 6 — upgrade
 
 ```bash
-composer require initphp/events:^2.0
+composer require initphp/events:^3.0
 ```
 
 ## Compatibility matrix
 
 | Source state | Target | Code changes required |
 | --- | --- | --- |
-| Only `initphp/events:^1.0` | `initphp/events:^2.0` | Verify priority-ordering and `Event::on()` default-priority changes (steps 2–4 above). |
-| Only `initphp/event-emitter:^1.0` | `initphp/events:^2.0` | Use the alias (no source changes). Verify the priority-ordering fix, and the `emit()` fix if you were on tag `1.0`. If you ship a custom `EventEmitterInterface` implementation, add `clearOnceListeners()`. |
-| Both packages installed | `initphp/events:^2.0` only | `composer remove initphp/event-emitter` (or rely on `replace` — Composer will reject the combo). |
+| Only `initphp/events:^1.0` | `initphp/events:^3.0` | Verify priority-ordering and `Event::on()` default-priority changes (steps 2–4 above), and the `trigger()` fix if you were on tag `1.0`. |
+| Only `initphp/event-emitter:^1.0` | `initphp/events:^3.0` | Use the alias (no source changes). Verify the priority-ordering fix, and the `emit()` fix if you were on tag `1.0`. If you ship a custom `EventEmitterInterface` implementation, add `clearOnceListeners()`. |
+| Both packages installed | `initphp/events:^3.0` only | `composer remove initphp/event-emitter` (or rely on `replace` — Composer will reject the combo). |
 | Mix of `InitPHP\EventEmitter\*` and `InitPHP\Events\*` `use` statements | Same | Swap `use` statements when you touch each file; both work today. |
 
 ## Why the consolidation
@@ -267,7 +283,7 @@ solved a problem already addressed by `initphp/events`. Maintaining two
 packages with nearly identical surface meant two release lines, two
 issue trackers, and double the change-log overhead — for a feature set
 that fits comfortably in one package. Merging both into
-`initphp/events:^2.0` keeps a single canonical source of truth and lets
+`initphp/events` keeps a single canonical source of truth and lets
 the two APIs (the [facade](Events-Facade.md) and the
 [emitter](EventEmitter.md)) share infrastructure cleanly.
 
