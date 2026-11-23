@@ -130,7 +130,7 @@ Practical consequences:
 
 The standalone package sorted priorities at the wrong array level, so
 listeners ran in registration order. `initphp/events` honours priorities
-from 2.1.0 on — see [From `initphp/events:^1.0`](#from-initphpevents10--2x)
+from 2.1.0 on — see [From `initphp/events:^1.0`](#from-initphpevents10--3x)
 below.
 
 ### Step 4 — drop the shim eventually
@@ -140,7 +140,7 @@ Once your codebase imports only `InitPHP\Events\*`, the aliases in
 future major release of this package; clean up your `use` statements
 before then to avoid a hard break.
 
-## From `initphp/events:^1.0` → `2.x`
+## From `initphp/events:^1.0` → `3.x`
 
 `composer require initphp/events:^3.0` is the upgrade (use `^2.1` if you are
 below PHP 8.2; Composer resolves either to the newest release of that line). The
