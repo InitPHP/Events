@@ -81,7 +81,8 @@ Registers a listener for the given event name.
 
 ```php
 Events::on('user.registered', function (array $user) {
-    error_log('new user: ' . $user['email']);
+    // Log an identifier, not personal data such as the e-mail address.
+    error_log('new user: ' . $user['id']);
 });
 ```
 
