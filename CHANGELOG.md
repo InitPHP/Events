@@ -5,6 +5,19 @@ All notable changes to `initphp/events` are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.0.1] - 2026-11-25
+
+### Documentation
+
+- The README and the Migration Guide target `^3.0` (they said `^2.0`) and point to
+  `^2.1` for PHP below 8.2.
+- The history of the `emit()` bug is corrected: it was in tag `1.0` of
+  `initphp/event-emitter` (fixed in its `1.0.1`) and no `initphp/events` release
+  shipped it in `EventEmitter`; `Event::trigger()` of `initphp/events` tag `1.0`
+  had the same mistake (fixed in `1.0.1`). The Migration Guide and Troubleshooting
+  explain what to audit.
+- The Events facade example logs a user id instead of the e-mail address.
+
 ## [3.0.0] - 2026-11-22
 
 ### Breaking changes
@@ -140,5 +153,6 @@ Pre-1.0.2 history was not maintained in a `CHANGELOG.md`. Refer to the
 Git log for individual fix commits (`git log src/Event.php`,
 `git log src/Events.php`).
 
+[3.0.1]: https://github.com/InitPHP/Events/compare/3.0.0...3.0.1
 [3.0.0]: https://github.com/InitPHP/Events/compare/2.1.0...3.0.0
 [1.0.2]: https://github.com/InitPHP/Events/releases/tag/v1.0.2
