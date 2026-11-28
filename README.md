@@ -331,7 +331,7 @@ composer install
 composer test         # PHPUnit
 ```
 
-CI runs the test suite across PHP 8.2 – 8.5.
+CI runs the test suite across PHP 8.2 – 8.6.
 
 ## Contributing & Security
 
